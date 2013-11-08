@@ -24,6 +24,7 @@ class FasterS3::Part
   end
 
   def download(s3_object)
+    return if byte_range.min == byte_range.max
     File.open(part_path, 'ab') do |file|
       s3_object.read(range: byte_range) do |chunk|
         file.write(chunk)
